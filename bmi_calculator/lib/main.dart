@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'ReusableCards.dart';
-import 'childContent_1.dart';
+import 'reuseable_cards.dart';
+import 'child_content.dart';
+import 'toggle_male_female.dart';
 
 void main() {
   runApp(const BMICalculator());
 }
+
+//colors that shows if a card is pressed or not()
+const inactiveColor = Color(0xFF1B1C2C);
+const activeColor = Color(0xFF111328);
+// initial colors
+Color maleColorCard = inactiveColor;
+Color femaleColorCard = inactiveColor;
+
+//enumeration for male and female
+enum Genders { male, female }
 
 class BMICalculator extends StatelessWidget {
   const BMICalculator({super.key});
@@ -17,10 +28,6 @@ class BMICalculator extends StatelessWidget {
   }
 }
 
-//colors that shows if a card is pressed or not()
-const inactiveColor = Color(0xFF1B1C2C);
-const activeColor = Color(0xFF111328);
-
 class InputPage extends StatefulWidget {
   const InputPage({super.key});
   @override
@@ -28,36 +35,9 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  // initial colors
-  Color maleColorCard = inactiveColor;
-  Color femaleColorCard = inactiveColor;
-
-  //function to update colors of cards when pressed upon
-  void update(int gender) {
-    //for male
-    if (gender == 1) {
-      if (maleColorCard == inactiveColor) {
-        if (femaleColorCard == activeColor) {
-          femaleColorCard = inactiveColor;
-        }
-        maleColorCard = activeColor;
-      } else {
-        maleColorCard = inactiveColor;
-      }
-    }
-    //for female
-    if (gender == 2) {
-      if (femaleColorCard == inactiveColor) {
-        femaleColorCard = activeColor;
-        if (maleColorCard == activeColor) {
-          maleColorCard = inactiveColor;
-        }
-      } else {
-        femaleColorCard = inactiveColor;
-      }
-    }
-  }
-
+  int height = 180;
+  int weight = 40;
+  int age = 10;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +54,7 @@ class _InputPageState extends State<InputPage> {
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      update(1);
+                      update(Genders.male);
                     });
                   }, //
                   child: ReuseableCard(
@@ -82,6 +62,7 @@ class _InputPageState extends State<InputPage> {
                     cardChild: ChildContent(
                       icon: FontAwesomeIcons.mars, //
                       label: "MALE",
+                      colourIcon: Colors.blue,
                     ),
                   ),
                 ),
@@ -91,7 +72,7 @@ class _InputPageState extends State<InputPage> {
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      update(2);
+                      update(Genders.female);
                     });
                   },
                   child: ReuseableCard(
@@ -99,6 +80,7 @@ class _InputPageState extends State<InputPage> {
                     cardChild: ChildContent(
                       label: "FEMALE",
                       icon: FontAwesomeIcons.venus, //
+                      colourIcon: Colors.pinkAccent,
                     ),
                   ),
                 ),
@@ -109,27 +91,250 @@ class _InputPageState extends State<InputPage> {
           Container(
             margin: EdgeInsets.all(15), //
             height: 220,
+            width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25), //
               color: Color(0xFF1B1C2C),
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, //
+
+              children: [
+                Text(
+                  "HEIGHT",
+                  style: TextStyle(
+                    fontSize: 20, //
+                    color: Color(0xFF616272),
+                  ),
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center, //
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Text(
+                      height.toString(),
+                      style: TextStyle(
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white, //
+                      ),
+                    ),
+                    Text(
+                      "cm",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFF616272), //
+                      ),
+                    ),
+                  ],
+                ),
+
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    thumbShape: RoundSliderThumbShape(
+                      enabledThumbRadius: 15,
+                    ), //enlarges the thumb shape
+                    overlayShape: RoundSliderOverlayShape(
+                      overlayRadius: 30,
+                    ), //gives an overlay to the thumb
+                  ),
+                  child: Slider(
+                    value: height.toDouble(), //
+                    min: 120,
+                    max: 250,
+                    divisions: 250 - 120,
+                    activeColor: Colors.white70,
+                    // label: '$height',
+                    onChanged: (double newvalue) {
+                      // debugPrint(newvalue.toString());
+                      setState(() {
+                        height = newvalue.round();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
           ), //
           //Bottom two rows
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 child: ReuseableCard(
                   colour: Color(0xFF1B1C2C), //
+                  cardChild: Column(
+                    children: [
+                      Text(
+                        "WEIGHT",
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFF616272), //
+                        ),
+                      ), //
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Text(
+                            weight.toString(),
+                            style: TextStyle(
+                              fontSize: 50, //
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            "kg",
+                            style: TextStyle(
+                              fontSize: 20, //
+                              color: Color(0xFF606271),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(15),
+                              child: FloatingActionButton(
+                                backgroundColor: Color(0xFF5DFDD4), //
+                                onPressed: () {
+                                  setState(() {
+                                    if (weight <= 40) {
+                                      debugPrint("Do Nothing");
+                                    } else {
+                                      weight--;
+                                    }
+                                  });
+                                }, //
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40), //
+                                ),
+                                child: Icon(Icons.remove),
+                              ),
+                            ),
+                          ),
+                          //========================
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(15), //
+                              child: FloatingActionButton(
+                                backgroundColor: Color(0xFF5DFDD4), //
+                                onPressed: () {
+                                  setState(() {
+                                    if (weight <= 200) {
+                                      weight++;
+                                    }
+                                  });
+                                }, //
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40), //
+                                ),
+                                child: Icon(Icons.add),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               //second one
               Expanded(
                 child: ReuseableCard(
                   colour: Color(0xFF1B1C2C), //
+                  cardChild: Column(
+                    children: [
+                      Text(
+                        "AGE",
+                        style: TextStyle(
+                          fontSize: 20, //
+                          color: Color(0xFF616272),
+                        ),
+                      ), //
+                      Text(
+                        age.toString(),
+                        style: TextStyle(
+                          fontSize: 50, //
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(15),
+                              child: FloatingActionButton(
+                                backgroundColor: Color(0xFF5DFDD4), //
+                                onPressed: () {
+                                  setState(() {
+                                    if (age <= 10) {
+                                      debugPrint("Do Nothing");
+                                    } else {
+                                      age--;
+                                    }
+                                  });
+                                }, //
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40), //
+                                ),
+                                child: Icon(Icons.remove),
+                              ),
+                            ),
+                          ),
+                          //========================
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.all(15), //
+                              child: FloatingActionButton(
+                                backgroundColor: Color(0xFF5DFDD4), //
+                                onPressed: () {
+                                  setState(() {
+                                    if (age <= 110) {
+                                      age++;
+                                    }
+                                  });
+                                }, //
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40), //
+                                ),
+                                child: Icon(Icons.add),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               //
             ],
+          ),
+          Container(
+            color: Colors.greenAccent,
+            width: double.infinity, //
+            height: 80,
+            child: TextButton(
+              child: Text(
+                "Calculate Your BMI",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold, //
+                  color: Colors.black,
+                ),
+              ), //
+              onPressed: () {
+                debugPrint("button Pressed");
+              },
+            ),
           ),
         ],
       ),
@@ -153,15 +358,6 @@ class _InputPageState extends State<InputPage> {
             height: 1.0,
           ),
         ),
-      ),
-      //floating button at the leftbottom of the page(Currently not in use)
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xFF5DFDD4), //
-        onPressed: () {}, //
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(40), //
-        ),
-        child: Icon(Icons.add),
       ),
     );
   }
