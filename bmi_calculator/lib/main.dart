@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reuseable_cards.dart';
 import 'child_content.dart';
-import 'toggle_male_female.dart';
+import 'result_screen.dart';
 
 void main() {
   runApp(const BMICalculator());
@@ -38,6 +38,9 @@ class _InputPageState extends State<InputPage> {
   int height = 180;
   int weight = 40;
   int age = 10;
+  dynamic result;
+  dynamic catchNum;
+  // double bmiResult = 20;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,7 +161,7 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ), //
-          //Bottom two rows
+          //middle two rows
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -232,6 +235,7 @@ class _InputPageState extends State<InputPage> {
                                     }
                                   });
                                 }, //
+
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40), //
                                 ),
@@ -318,6 +322,7 @@ class _InputPageState extends State<InputPage> {
               //
             ],
           ),
+          //bottom container
           Container(
             color: Colors.greenAccent,
             width: double.infinity, //
@@ -332,7 +337,13 @@ class _InputPageState extends State<InputPage> {
                 ),
               ), //
               onPressed: () {
-                debugPrint("button Pressed");
+                catchNum = results();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultScreen(bmiResult: catchNum),
+                  ),
+                );
               },
             ),
           ),
@@ -360,5 +371,36 @@ class _InputPageState extends State<InputPage> {
         ),
       ),
     );
+  }
+  //updation function for male and female button selection
+
+  void update(Genders gender) {
+    //for male
+    if (gender == Genders.male) {
+      if (maleColorCard == inactiveColor) {
+        if (femaleColorCard == activeColor) {
+          femaleColorCard = inactiveColor;
+        }
+        maleColorCard = activeColor;
+      } else {
+        maleColorCard = inactiveColor;
+      }
+    }
+    //for female
+    if (gender == Genders.female) {
+      if (femaleColorCard == inactiveColor) {
+        femaleColorCard = activeColor;
+        if (maleColorCard == activeColor) {
+          maleColorCard = inactiveColor;
+        }
+      } else {
+        femaleColorCard = inactiveColor;
+      }
+    }
+  }
+
+  //since improvising score using gender and age may result in incorrect results, we are not gonna use them in the formula(We are using strandralized formula for BMI)
+  double results() {
+    return weight / ((height / 100) * (height / 100));
   }
 }
