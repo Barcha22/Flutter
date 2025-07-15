@@ -108,6 +108,13 @@ class ResultScreen extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
+          SizedBox(height: 100),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context); //
+            },
+            child: Text('Recalculate results'),
+          ),
         ],
       ),
     );
