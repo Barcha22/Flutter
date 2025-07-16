@@ -202,6 +202,7 @@ class _InputPageState extends State<InputPage> {
                             child: Container(
                               margin: EdgeInsets.all(15),
                               child: FloatingActionButton(
+                                heroTag: null,
                                 backgroundColor: Color(0xFF5DFDD4),
                                 onPressed: () {
                                   setState(() {
@@ -219,6 +220,7 @@ class _InputPageState extends State<InputPage> {
                             child: Container(
                               margin: EdgeInsets.all(15),
                               child: FloatingActionButton(
+                                heroTag: null,
                                 backgroundColor: Color(0xFF5DFDD4),
                                 onPressed: () {
                                   setState(() {
@@ -266,6 +268,7 @@ class _InputPageState extends State<InputPage> {
                             child: Container(
                               margin: EdgeInsets.all(15),
                               child: FloatingActionButton(
+                                heroTag: null,
                                 backgroundColor: Color(0xFF5DFDD4),
                                 onPressed: () {
                                   setState(() {
@@ -283,6 +286,7 @@ class _InputPageState extends State<InputPage> {
                             child: Container(
                               margin: EdgeInsets.all(15),
                               child: FloatingActionButton(
+                                heroTag: null,
                                 backgroundColor: Color(0xFF5DFDD4),
                                 onPressed: () {
                                   setState(() {

@@ -1,5 +1,10 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'main.dart';
+
+Color maleColorCard = inactiveColor;
+Color femaleColorCard = inactiveColor;
+const Color activeColor = Colors.blue;
+const Color inactiveColor = Colors.grey;
 
 void update(Genders gender) {
   //for male
