@@ -32,6 +32,32 @@ class _HomePageState extends State<HomePage> {
   String eth = "---";
   String ltc = "---";
 
+  CoinData coinData = CoinData();
+
+  @override
+  void initState() {
+    super.initState();
+    getPriceData();
+  }
+
+  void getPriceData() async {
+    try {
+      var data = await coinData.getCoinData(currency!);
+      setState(() {
+        btc = data['BTC']?.toString() ?? '---';
+        eth = data['ETH']?.toString() ?? '---';
+        ltc = data['LTC']?.toString() ?? '---';
+      });
+    } catch (e) {
+      print('Error getting price data: $e');
+      setState(() {
+        btc = '---';
+        eth = '---';
+        ltc = '---';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +104,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.blue,
               child: Center(
                 child: DropdownButton<String>(
+                  value: currency,
                   items: currencyList.map((i) {
                     return DropdownMenuItem(
                       value: i,
@@ -88,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                     setState(() {
                       currency = value;
                     });
+                    getPriceData();
                   },
                 ), //
               ),
