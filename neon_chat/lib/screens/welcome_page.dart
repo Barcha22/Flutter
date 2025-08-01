@@ -50,17 +50,19 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
                     tag: "logo",
                     child: SizedBox(
                       height: controller.value * 100,
-                      width: 80,
+                      width: 120,
                       child: Image(
                         image: AssetImage('images/logo2.png'), //
+                        // fit: BoxFit.contain,
                       ),
                     ),
                   ),
+                  // SizedBox(width: 15),
                   //text
                   Text(
                     'Neon Chat',
                     style: TextStyle(
-                      fontSize: 50, //
+                      fontSize: 30, //
                       // fontWeight: FontWeight.bold,
                       fontFamily: 'Pacifico',
                       color: Colors.white,
@@ -69,7 +71,7 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
                 ],
               ),
 
-              SizedBox(height: 70),
+              SizedBox(height: 60),
 
               //login button
               SizedBox(

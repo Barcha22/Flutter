@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/animation/animated_background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'login_page.dart';
+import 'welcome_page.dart';
 
 class ChatPage extends StatefulWidget {
   static const String id = "Chat_Page";
@@ -30,7 +30,7 @@ class _ChatPageState extends State<ChatPage> {
       if (user != null) {
         loggedInUser = user;
         debugPrint = (String? loggedInUser, {int? wrapWidth}) {
-          print(loggedInUser);
+          // print(loggedInUser);
         };
       }
     } catch (e) {
@@ -41,19 +41,18 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //drawer
+      drawer: openBar(),
+      //appbar
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back, color: Colors.white),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.logout, color: Colors.white),
-            onPressed: () {
-              Navigator.pushNamed(context, LogInPage.id);
-            },
-          ),
-        ],
         title: Text('Chat', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
+        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ), //to make the drawes icon white
       ),
+
       body: SafeArea(
         child: BlueParticlesBackground(
           child: Column(
@@ -163,7 +162,7 @@ class _ChatPageState extends State<ChatPage> {
                               onTap: () {
                                 //
                               },
-                              child: Icon(Icons.person),
+                              child: Icon(Icons.person_add),
                             ),
                           ],
                         ),
@@ -176,6 +175,71 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
+    );
+  }
+
+  //function for navigation drawer
+  Widget openBar() {
+    return NavigationDrawer(
+      // indicatorColor: Colors.blue,
+      backgroundColor: Colors.black,
+
+      children: [
+        //profile
+        TextButton(
+          onPressed: () {},
+          child: Row(
+            children: [
+              Icon(Icons.person_2),
+              Text('Profile'), //
+            ],
+          ),
+        ),
+        //setting
+        TextButton(
+          onPressed: () {},
+          child: Row(
+            children: [
+              Icon(Icons.settings),
+              Text('Setting'), //
+            ],
+          ),
+        ),
+        //logout
+        TextButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Are you sure"),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        _auth.signOut();
+                        Navigator.pushNamed(context, Welcome.id);
+                      },
+                      child: Text('Yes'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('No'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: Row(
+            children: [
+              Icon(Icons.settings),
+              Text('Log out'), //
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
