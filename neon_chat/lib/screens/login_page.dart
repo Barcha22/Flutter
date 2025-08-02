@@ -55,7 +55,7 @@ class _LogInPageState extends State<LogInPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    //flash icon
+                    // icon
                     Hero(
                       tag: "logo",
                       child: SizedBox(
@@ -117,7 +117,6 @@ class _LogInPageState extends State<LogInPage> {
                       width: 300,
                       child: ElevatedButton(
                         onPressed: () async {
-                          final dialogContext = context;
                           setState(() {
                             showSpinner = true;
                           });
@@ -137,12 +136,13 @@ class _LogInPageState extends State<LogInPage> {
                             debugPrint('an error occured');
                             if (mounted) {
                               showDialog(
-                                context: dialogContext,
+                                context: context,
                                 builder: (context) => AlertDialog(
-                                  icon: Icon(Icons.sms_failed),
+                                  icon: Icon(Icons.error, color: Colors.red),
                                   title: Text("Login Failed"),
                                   content: Text(
-                                    "User not registered, Register first.",
+                                    "Incorrect email or password.",
+                                    textAlign: TextAlign.center,
                                   ),
                                   actions: [
                                     TextButton(
@@ -150,6 +150,11 @@ class _LogInPageState extends State<LogInPage> {
                                       child: Text("OK"),
                                     ),
                                   ],
+                                  contentPadding: EdgeInsets.all(10),
+                                  insetPadding: EdgeInsets.symmetric(
+                                    vertical: 200,
+                                    horizontal: 80,
+                                  ),
                                 ),
                               );
                             }

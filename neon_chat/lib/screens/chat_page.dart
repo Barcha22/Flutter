@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/animation/animated_background.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'add_friends_page.dart';
 import 'welcome_page.dart';
 
 class ChatPage extends StatefulWidget {
@@ -29,9 +30,6 @@ class _ChatPageState extends State<ChatPage> {
       final user = _auth.currentUser;
       if (user != null) {
         loggedInUser = user;
-        debugPrint = (String? loggedInUser, {int? wrapWidth}) {
-          // print(loggedInUser);
-        };
       }
     } catch (e) {
       debugPrint('');
@@ -56,9 +54,10 @@ class _ChatPageState extends State<ChatPage> {
       body: SafeArea(
         child: BlueParticlesBackground(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              //1. Text field at the top
               Container(
                 decoration: BoxDecoration(
                   border: Border(
@@ -73,9 +72,7 @@ class _ChatPageState extends State<ChatPage> {
                   children: <Widget>[
                     Expanded(
                       child: TextField(
-                        onChanged: (value) {
-                          //Do something with the user input.
-                        },
+                        onChanged: (value) {},
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 10.0,
@@ -116,6 +113,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               ),
 
+              //2.app bar at the bottom
               Expanded(
                 child: Stack(
                   children: [
@@ -142,9 +140,7 @@ class _ChatPageState extends State<ChatPage> {
                                 padding: EdgeInsets.all(12),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Colors.grey.withOpacity(
-                                    0.1,
-                                  ), // Light blue background
+                                  color: Colors.grey.withOpacity(0.1),
                                   border: Border.all(
                                     color: Colors.grey.withOpacity(0.3),
                                     width: 1,
@@ -157,10 +153,10 @@ class _ChatPageState extends State<ChatPage> {
                                 ),
                               ),
                             ),
-                            //profile icon
+                            //add friends icon
                             GestureDetector(
                               onTap: () {
-                                //
+                                Navigator.pushNamed(context, AddFriendsPage.id);
                               },
                               child: Icon(Icons.person_add),
                             ),
